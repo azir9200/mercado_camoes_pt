@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("ADMIN") // ADMIN, MANAGER, STAFF
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model Category {
+  id             String    @id @default(uuid())
+  slug           String    @unique
+  name_en        String
+  name_pt        String
+  description_en String?
+  description_pt String?
+  icon           String?   // Lucide icon name or emoji identifier
+  displayOrder   Int       @default(0)
+  products       Product[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@map("categories")
+}
+
+model Product {
+  id             String         @id @default(uuid())
+  sku            String?        @unique
+  name_en        String
+  name_pt        String
+  description_en String
+  description_pt String
+  price          Float
+  stock          Int            @default(100)
+  unit           String         @default("item") // item, kg, pack, bottle, etc.
+  isFeatured     Boolean        @default(false)
+  categoryId     String
+  category       Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  images         ProductImage[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@map("products")
+}
+
+model ProductImage {
+  id        String   @id @default(uuid())
+  url       String
+  alt_en    String?
+  alt_pt    String?
+  isPrimary Boolean  @default(false)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("product_images")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  STORED
+  COMPLETED
+  CANCELLED
+}
+
+enum DurationType {
+  ONE_HOUR
+  THREE_HOURS
+  ONE_DAY
+  CUSTOM
+}
+
+model LuggageBooking {
+  id               String        @id @default(uuid())
+  bookingReference String        @unique
+  customerName     String
+  customerEmail    String
+  customerPhone    String
+  whatsapp         String?
+  bagCount         Int           @default(1)
+  durationHours    Float
+  durationType     DurationType  @default(THREE_HOURS)
+  dropoffTime      DateTime
+  pickupTime       DateTime
+  totalPrice       Float
+  status           BookingStatus @default(PENDING)
+  notes            String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@map("luggage_bookings")
+}
+
+model StoreSettings {
+  id                    String   @id @default(uuid())
+  name                  String   @default("Mercado Camões")
+  address               String   @default("Praça Luís de Camões 22, 1200-243 Lisboa, Portugal")
+  phone                 String   @default("+351 21 345 6789")
+  whatsapp              String   @default("+351 91 234 5678")
+  email                 String   @default("info@mercadocamoes.pt")
+  openingHours_en       String   @default("Mon - Sun: 08:00 - 23:00")
+  openingHours_pt       String   @default("Seg - Dom: 08:00 - 23:00")
+  rate_1h_per_bag       Float    @default(2.50)
+  rate_3h_per_bag       Float    @default(5.00)
+  rate_day_per_bag      Float    @default(8.00)
+  rate_extra_h_per_bag  Float    @default(1.50)
+  updatedAt             DateTime @updatedAt
+
+  @@map("store_settings")
+}

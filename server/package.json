@@ -1,0 +1,32 @@
+{
+  "name": "mercado-camoes-server",
+  "version": "1.0.0",
+  "description": "Mercado Camões API - Bilingual Convenience Store & Luggage Storage Backend",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "seed": "tsx src/prisma/seed.ts"
+  },
+  "keywords": ["express", "typescript", "prisma", "ecommerce", "luggage-storage", "lisbon"],
+  "author": "Mercado Camões Team",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.21.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.8.0",
+    "prisma": "^5.21.1",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  }
+}
