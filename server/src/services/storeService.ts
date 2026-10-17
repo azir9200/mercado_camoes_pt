@@ -1,4 +1,5 @@
 import { config } from '../config/index.js';
+import { dbStore } from '../data/dbStore.js';
 import { OrderCheckoutRequest } from '../types/index.js';
 import { formatOrderWhatsAppMessage } from '../utils/whatsapp.js';
 
@@ -12,7 +13,7 @@ export class StoreService {
       email: config.store.email,
       openingHours: config.store.openingHours,
       geo: config.store.geo,
-      luggageRates: config.store.luggageRates
+      luggageRates: dbStore.getRates()
     };
   }
 
@@ -25,6 +26,10 @@ export class StoreService {
       whatsappUrl,
       total: Number(total.toFixed(2))
     };
+  }
+
+  updateRates(rates: { oneHour?: number; threeHours?: number; oneDay?: number; extraHour?: number }) {
+    return dbStore.updateRates(rates);
   }
 }
 

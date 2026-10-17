@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = exports.BookingService = void 0;
-const mockDatabase_js_1 = require("../data/mockDatabase.js");
+const dbStore_js_1 = require("../data/dbStore.js");
 const index_js_1 = require("../config/index.js");
 const whatsapp_js_1 = require("../utils/whatsapp.js");
 class BookingService {
@@ -63,7 +63,7 @@ class BookingService {
             status: 'CONFIRMED',
             createdAt: new Date().toISOString()
         };
-        mockDatabase_js_1.mockBookings.push(newBooking);
+        dbStore_js_1.dbStore.createBooking(newBooking);
         const whatsappUrl = (0, whatsapp_js_1.formatLuggageWhatsAppMessage)(newBooking);
         return {
             booking: newBooking,
@@ -71,8 +71,14 @@ class BookingService {
         };
     }
     async getBookingByReference(reference) {
-        const found = mockDatabase_js_1.mockBookings.find(b => b.bookingReference === reference);
+        const found = dbStore_js_1.dbStore.getBookingByReference(reference);
         return found || null;
+    }
+    async getAllBookings() {
+        return [...dbStore_js_1.dbStore.getBookings()].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    }
+    async updateBookingStatus(idOrRef, status) {
+        return dbStore_js_1.dbStore.updateBookingStatus(idOrRef, status);
     }
 }
 exports.BookingService = BookingService;

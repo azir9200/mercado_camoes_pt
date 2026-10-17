@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBookingByRef = exports.createLuggageBooking = exports.calculateLuggageQuote = void 0;
+exports.updateBookingStatus = exports.getAllBookings = exports.getBookingByRef = exports.createLuggageBooking = exports.calculateLuggageQuote = void 0;
 const bookingService_js_1 = require("../services/bookingService.js");
 const response_js_1 = require("../utils/response.js");
 const calculateLuggageQuote = async (req, res) => {
@@ -52,3 +52,28 @@ const getBookingByRef = async (req, res) => {
     }
 };
 exports.getBookingByRef = getBookingByRef;
+const getAllBookings = async (req, res) => {
+    try {
+        const bookings = await bookingService_js_1.bookingService.getAllBookings();
+        return (0, response_js_1.sendSuccess)(res, bookings, 'Luggage bookings fetched successfully');
+    }
+    catch (error) {
+        return (0, response_js_1.sendError)(res, error.message || 'Failed to fetch bookings', 500);
+    }
+};
+exports.getAllBookings = getAllBookings;
+const updateBookingStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+        const updated = await bookingService_js_1.bookingService.updateBookingStatus(id, status);
+        if (!updated) {
+            return (0, response_js_1.sendError)(res, `Booking '${id}' not found`, 404);
+        }
+        return (0, response_js_1.sendSuccess)(res, updated, 'Booking status updated successfully');
+    }
+    catch (error) {
+        return (0, response_js_1.sendError)(res, error.message || 'Failed to update booking status', 500);
+    }
+};
+exports.updateBookingStatus = updateBookingStatus;

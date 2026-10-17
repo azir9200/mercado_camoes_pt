@@ -11,7 +11,7 @@ const errorHandler_js_1 = require("./middleware/errorHandler.js");
 const app = (0, express_1.default)();
 // Middlewares
 app.use((0, cors_1.default)({
-    origin: [index_js_1.config.clientUrl, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: true,
     credentials: true
 }));
 app.use(express_1.default.json());

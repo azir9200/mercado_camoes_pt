@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLanguage } from '../../../context/LanguageContext';
 import { LuggageCalculator } from '../../../components/storage/LuggageCalculator';
+import { fetchStoreInfo } from '../../../lib/api';
 import { Badge } from '../../../components/common/Badge';
 import {
   LuggageIcon,
@@ -15,13 +16,29 @@ import {
 
 export default function LuggageStoragePage() {
   const { lang, t } = useLanguage();
+  const [rates, setRates] = useState({
+    oneHour: 2.50,
+    threeHours: 5.00,
+    oneDay: 8.00,
+    extraHour: 1.50
+  });
+
+  useEffect(() => {
+    fetchStoreInfo()
+      .then((info) => {
+        if (info?.luggageRates) {
+          setRates(info.luggageRates);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16 sm:space-y-24">
       {/* Header Introduction */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <Badge variant="emerald">
-          {lang === 'pt' ? 'Guarda de Bagagem no Chiado' : 'Chiado Luggage Storage'}
+          {lang === 'pt' ? 'Guarda de Bagagem no Porto • Rua de Camões' : 'Porto Luggage Storage • Rua de Camões'}
         </Badge>
         <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
           {t.storage.title}
@@ -42,7 +59,7 @@ export default function LuggageStoragePage() {
           </div>
           <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
             <MapPinIcon className="w-4 h-4 text-emerald-600" />
-            <span>Praça Luís de Camões 22</span>
+            <span>Rua Camões 242, 4000-140 Porto</span>
           </div>
         </div>
       </div>
@@ -73,7 +90,7 @@ export default function LuggageStoragePage() {
                   </span>
                 </div>
                 <span className="text-lg font-black text-emerald-600 dark:text-emerald-400">
-                  €2.50
+                  €{rates.oneHour.toFixed(2)}
                 </span>
               </div>
 
@@ -86,11 +103,11 @@ export default function LuggageStoragePage() {
                     {lang === 'pt' ? '3 Horas' : '3 Hours (Half Day)'}
                   </span>
                   <span className="text-xs text-slate-500">
-                    {lang === 'pt' ? 'Perfeito para passeio pelo Bairro Alto' : 'Perfect for exploring Chiado & Tram 28'}
+                    {lang === 'pt' ? 'Perfeito para passeio pelos Aliados e Trindade' : 'Perfect for exploring Aliados & Porto Center'}
                   </span>
                 </div>
                 <span className="text-lg font-black text-emerald-600 dark:text-emerald-400">
-                  €5.00
+                  €{rates.threeHours.toFixed(2)}
                 </span>
               </div>
 
@@ -104,7 +121,7 @@ export default function LuggageStoragePage() {
                   </span>
                 </div>
                 <span className="text-lg font-black text-emerald-600 dark:text-emerald-400">
-                  €8.00
+                  €{rates.oneDay.toFixed(2)}
                 </span>
               </div>
             </div>

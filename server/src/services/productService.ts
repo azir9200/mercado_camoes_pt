@@ -1,4 +1,4 @@
-import { mockProducts, mockCategories } from '../data/mockDatabase.js';
+import { dbStore } from '../data/dbStore.js';
 import { ProductDTO } from '../types/index.js';
 
 export interface ProductFilterParams {
@@ -12,11 +12,12 @@ export interface ProductFilterParams {
 
 export class ProductService {
   async getProducts(params: ProductFilterParams = {}): Promise<{ products: ProductDTO[]; total: number }> {
-    let list = [...mockProducts];
+    let list = [...dbStore.getProducts()];
+    const categories = dbStore.getCategories();
 
     // Filter by Category
     if (params.categorySlug) {
-      const category = mockCategories.find(c => c.slug === params.categorySlug || c.id === params.categorySlug);
+      const category = categories.find(c => c.slug === params.categorySlug || c.id === params.categorySlug);
       if (category) {
         list = list.filter(p => p.categoryId === category.id);
       } else {
@@ -43,7 +44,7 @@ export class ProductService {
     // Attach category details
     const populated = list.map(p => ({
       ...p,
-      category: mockCategories.find(c => c.id === p.categoryId)
+      category: categories.find(c => c.id === p.categoryId)
     }));
 
     const total = populated.length;
@@ -58,18 +59,46 @@ export class ProductService {
   }
 
   async getProductById(idOrSku: string): Promise<ProductDTO | null> {
-    const product = mockProducts.find(p => p.id === idOrSku || p.sku === idOrSku);
+    const product = dbStore.getProductById(idOrSku);
     if (!product) return null;
 
     return {
       ...product,
-      category: mockCategories.find(c => c.id === product.categoryId)
+      category: dbStore.getCategories().find(c => c.id === product.categoryId)
     };
   }
 
   async getFeaturedProducts(limit = 8): Promise<ProductDTO[]> {
     const { products } = await this.getProducts({ isFeatured: true, limit });
     return products;
+  }
+
+  async createProduct(data: Omit<ProductDTO, 'id'>): Promise<ProductDTO> {
+    const id = `prod-${Date.now()}`;
+    const newProduct: ProductDTO = {
+      ...data,
+      id,
+      sku: data.sku || `MC-${Math.floor(1000 + Math.random() * 9000)}`
+    };
+    dbStore.createProduct(newProduct);
+    return {
+      ...newProduct,
+      category: dbStore.getCategories().find(c => c.id === newProduct.categoryId)
+    };
+  }
+
+  async updateProduct(id: string, data: Partial<ProductDTO>): Promise<ProductDTO | null> {
+    const updated = dbStore.updateProduct(id, data);
+    if (!updated) return null;
+
+    return {
+      ...updated,
+      category: dbStore.getCategories().find(c => c.id === updated.categoryId)
+    };
+  }
+
+  async deleteProduct(id: string): Promise<boolean> {
+    return dbStore.deleteProduct(id);
   }
 }
 

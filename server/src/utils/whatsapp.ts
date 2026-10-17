@@ -63,7 +63,7 @@ export const formatLuggageWhatsAppMessage = (booking: LuggageBookingDTO): string
 💵 *Valor Previsto / Total Price:* €${booking.totalPrice.toFixed(2)}
 ${booking.notes ? `📝 *Notas:* ${booking.notes}\n` : ''}
 ----------------------------------------
-📍 *Morada / Address:* Praça Luís de Camões 22, Lisboa
+📍 *Morada / Address:* Rua Camões 242, 4000-140 Porto
 Por favor confirmem a minha reserva. / Please confirm my booking.`;
 
   return buildWhatsAppUrl(config.store.whatsapp, text);

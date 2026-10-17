@@ -201,10 +201,10 @@ function ProductDetailContent() {
 
             {/* Direct WhatsApp Ordering Alternative */}
             <a
-              href={`https://wa.me/351912345678?text=${encodeURIComponent(`Olá! Gostaria de encomendar ${quantity}x ${title} (€${(product.price * quantity).toFixed(2)}) para levantar no Mercado Camões.`)}`}
+              href={`https://wa.me/351920319177?text=${encodeURIComponent(`Olá! Gostaria de encomendar ${quantity}x ${title} (€${(product.price * quantity).toFixed(2)}) para levantar no Mercado Camões (Rua Camões 242, Porto).`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm flex items-center justify-center gap-2 transition-all"
+              className="w-full py-3.5 px-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md"
             >
               <MessageCircleIcon className="w-4 h-4" />
               <span>{lang === 'pt' ? 'Pedir Imediatamente por WhatsApp' : 'Order Instantly via WhatsApp'}</span>
@@ -219,7 +219,7 @@ function ProductDetailContent() {
             </div>
             <div className="flex items-center gap-2">
               <span>🏪</span>
-              <span>{lang === 'pt' ? 'Levantamento no Chiado' : 'Quick Chiado pickup'}</span>
+              <span>{lang === 'pt' ? 'Rua Camões 242, Porto' : 'Pickup at Rua Camões 242, Porto'}</span>
             </div>
           </div>
         </div>

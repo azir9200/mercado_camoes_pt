@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productService = exports.ProductService = void 0;
-const mockDatabase_js_1 = require("../data/mockDatabase.js");
+const dbStore_js_1 = require("../data/dbStore.js");
 class ProductService {
     async getProducts(params = {}) {
-        let list = [...mockDatabase_js_1.mockProducts];
+        let list = [...dbStore_js_1.dbStore.getProducts()];
+        const categories = dbStore_js_1.dbStore.getCategories();
         // Filter by Category
         if (params.categorySlug) {
-            const category = mockDatabase_js_1.mockCategories.find(c => c.slug === params.categorySlug || c.id === params.categorySlug);
+            const category = categories.find(c => c.slug === params.categorySlug || c.id === params.categorySlug);
             if (category) {
                 list = list.filter(p => p.categoryId === category.id);
             }
@@ -30,7 +31,7 @@ class ProductService {
         // Attach category details
         const populated = list.map(p => ({
             ...p,
-            category: mockDatabase_js_1.mockCategories.find(c => c.id === p.categoryId)
+            category: categories.find(c => c.id === p.categoryId)
         }));
         const total = populated.length;
         const offset = params.offset || 0;
@@ -42,17 +43,42 @@ class ProductService {
         };
     }
     async getProductById(idOrSku) {
-        const product = mockDatabase_js_1.mockProducts.find(p => p.id === idOrSku || p.sku === idOrSku);
+        const product = dbStore_js_1.dbStore.getProductById(idOrSku);
         if (!product)
             return null;
         return {
             ...product,
-            category: mockDatabase_js_1.mockCategories.find(c => c.id === product.categoryId)
+            category: dbStore_js_1.dbStore.getCategories().find(c => c.id === product.categoryId)
         };
     }
     async getFeaturedProducts(limit = 8) {
         const { products } = await this.getProducts({ isFeatured: true, limit });
         return products;
+    }
+    async createProduct(data) {
+        const id = `prod-${Date.now()}`;
+        const newProduct = {
+            ...data,
+            id,
+            sku: data.sku || `MC-${Math.floor(1000 + Math.random() * 9000)}`
+        };
+        dbStore_js_1.dbStore.createProduct(newProduct);
+        return {
+            ...newProduct,
+            category: dbStore_js_1.dbStore.getCategories().find(c => c.id === newProduct.categoryId)
+        };
+    }
+    async updateProduct(id, data) {
+        const updated = dbStore_js_1.dbStore.updateProduct(id, data);
+        if (!updated)
+            return null;
+        return {
+            ...updated,
+            category: dbStore_js_1.dbStore.getCategories().find(c => c.id === updated.categoryId)
+        };
+    }
+    async deleteProduct(id) {
+        return dbStore_js_1.dbStore.deleteProduct(id);
     }
 }
 exports.ProductService = ProductService;

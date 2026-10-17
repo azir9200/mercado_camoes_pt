@@ -51,3 +51,62 @@ export const getProductById = async (req: Request, res: Response) => {
     return sendError(res, error.message || 'Failed to fetch product', 500);
   }
 };
+
+export const createProduct = async (req: Request, res: Response) => {
+  try {
+    const { name_en, name_pt, price, categoryId, description_en, description_pt, stock, unit, isFeatured, images, sku } = req.body;
+    if (!name_en || !name_pt || price === undefined || !categoryId) {
+      return sendError(res, 'Name (EN/PT), price, and category are required', 400);
+    }
+
+    const newProd = await productService.createProduct({
+      name_en,
+      name_pt,
+      price: parseFloat(price),
+      categoryId,
+      description_en: description_en || '',
+      description_pt: description_pt || '',
+      stock: stock !== undefined ? parseInt(stock, 10) : 50,
+      unit: unit || 'item',
+      isFeatured: !!isFeatured,
+      images: images || [
+        {
+          id: `img-${Date.now()}`,
+          url: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80',
+          isPrimary: true
+        }
+      ],
+      sku
+    });
+
+    return sendSuccess(res, newProd, 'Product created successfully', 201);
+  } catch (error: any) {
+    return sendError(res, error.message || 'Failed to create product', 500);
+  }
+};
+
+export const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const updated = await productService.updateProduct(id, req.body);
+    if (!updated) {
+      return sendError(res, `Product '${id}' not found`, 404);
+    }
+    return sendSuccess(res, updated, 'Product updated successfully');
+  } catch (error: any) {
+    return sendError(res, error.message || 'Failed to update product', 500);
+  }
+};
+
+export const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const deleted = await productService.deleteProduct(id);
+    if (!deleted) {
+      return sendError(res, `Product '${id}' not found`, 404);
+    }
+    return sendSuccess(res, { id }, 'Product deleted successfully');
+  } catch (error: any) {
+    return sendError(res, error.message || 'Failed to delete product', 500);
+  }
+};

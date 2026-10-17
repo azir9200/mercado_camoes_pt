@@ -99,3 +99,26 @@ export interface StoreInfo {
     extraHour: number;
   };
 }
+
+export type OrderStatus = 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED';
+
+export interface OrderItem {
+  productId: string;
+  name: string;
+  quantity: number;
+  unitPrice: number;
+}
+
+export interface Order {
+  id: string;
+  orderNumber: string;
+  customerName: string;
+  customerPhone: string;
+  deliveryOption: 'pickup' | 'local_delivery';
+  notes?: string;
+  items: OrderItem[];
+  totalPrice: number;
+  status: OrderStatus;
+  orderType: 'WHATSAPP' | 'DIRECT';
+  createdAt: string;
+}

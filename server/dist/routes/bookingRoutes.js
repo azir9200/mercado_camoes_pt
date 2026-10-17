@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const bookingController_js_1 = require("../controllers/bookingController.js");
 const router = (0, express_1.Router)();
+router.get('/bookings', bookingController_js_1.getAllBookings);
+router.patch('/bookings/:id/status', bookingController_js_1.updateBookingStatus);
 router.post('/quote', bookingController_js_1.calculateLuggageQuote);
 router.post('/book', bookingController_js_1.createLuggageBooking);
 router.get('/:reference', bookingController_js_1.getBookingByRef);

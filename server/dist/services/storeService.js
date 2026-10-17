@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.storeService = exports.StoreService = void 0;
 const index_js_1 = require("../config/index.js");
+const dbStore_js_1 = require("../data/dbStore.js");
 const whatsapp_js_1 = require("../utils/whatsapp.js");
 class StoreService {
     getStoreInfo() {
@@ -13,7 +14,7 @@ class StoreService {
             email: index_js_1.config.store.email,
             openingHours: index_js_1.config.store.openingHours,
             geo: index_js_1.config.store.geo,
-            luggageRates: index_js_1.config.store.luggageRates
+            luggageRates: dbStore_js_1.dbStore.getRates()
         };
     }
     processOrderCheckout(order) {
@@ -24,6 +25,9 @@ class StoreService {
             whatsappUrl,
             total: Number(total.toFixed(2))
         };
+    }
+    updateRates(rates) {
+        return dbStore_js_1.dbStore.updateRates(rates);
     }
 }
 exports.StoreService = StoreService;

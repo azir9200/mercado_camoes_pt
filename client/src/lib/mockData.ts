@@ -398,18 +398,18 @@ export const initialProducts: Product[] = [
 
 export const initialStoreInfo: StoreInfo = {
   name: 'Mercado Camões',
-  address: 'Praça Luís de Camões 22, 1200-243 Lisboa, Portugal',
-  phone: '+351 21 345 6789',
-  whatsapp: '+351912345678',
+  address: 'Rua Camões 242, 4000-140 Porto, Portugal',
+  phone: '+351 920 319 177',
+  whatsapp: '+351920319177',
   email: 'info@mercadocamoes.pt',
   openingHours: {
     en: 'Monday - Sunday: 08:00 - 23:00 (Open every day)',
     pt: 'Segunda - Domingo: 08:00 - 23:00 (Aberto todos os dias)'
   },
   geo: {
-    lat: 38.7107,
-    lng: -9.1436,
-    googleMapsUrl: 'https://maps.google.com/?q=Praça+Luís+de+Camões+Lisboa'
+    lat: 41.1557,
+    lng: -8.6074,
+    googleMapsUrl: 'https://maps.google.com/?q=Rua+Cam%C3%B5es+242,+Porto'
   },
   luggageRates: {
     oneHour: 2.50,

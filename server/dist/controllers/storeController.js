@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkoutOrder = exports.getStoreDetails = void 0;
+exports.updateStoreRates = exports.checkoutOrder = exports.getStoreDetails = void 0;
 const storeService_js_1 = require("../services/storeService.js");
 const response_js_1 = require("../utils/response.js");
 const getStoreDetails = (req, res) => {
@@ -33,3 +33,13 @@ const checkoutOrder = (req, res) => {
     }
 };
 exports.checkoutOrder = checkoutOrder;
+const updateStoreRates = (req, res) => {
+    try {
+        const updatedRates = storeService_js_1.storeService.updateRates(req.body);
+        return (0, response_js_1.sendSuccess)(res, updatedRates, 'Luggage storage rates updated successfully');
+    }
+    catch (error) {
+        return (0, response_js_1.sendError)(res, error.message || 'Failed to update luggage rates', 400);
+    }
+};
+exports.updateStoreRates = updateStoreRates;

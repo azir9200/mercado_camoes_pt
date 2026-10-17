@@ -71,4 +71,21 @@ export interface OrderCheckoutRequest {
   deliveryOption: 'pickup' | 'local_delivery';
   notes?: string;
   items: CartItemOrder[];
+  orderType?: 'WHATSAPP' | 'DIRECT';
+}
+
+export type OrderStatus = 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED';
+
+export interface OrderDTO {
+  id: string;
+  orderNumber: string;
+  customerName: string;
+  customerPhone: string;
+  deliveryOption: 'pickup' | 'local_delivery';
+  notes?: string;
+  items: CartItemOrder[];
+  totalPrice: number;
+  status: OrderStatus;
+  orderType: 'WHATSAPP' | 'DIRECT';
+  createdAt: string;
 }

@@ -60,3 +60,26 @@ export const getBookingByRef = async (req: Request, res: Response) => {
     return sendError(res, error.message || 'Failed to fetch booking', 500);
   }
 };
+
+export const getAllBookings = async (req: Request, res: Response) => {
+  try {
+    const bookings = await bookingService.getAllBookings();
+    return sendSuccess(res, bookings, 'Luggage bookings fetched successfully');
+  } catch (error: any) {
+    return sendError(res, error.message || 'Failed to fetch bookings', 500);
+  }
+};
+
+export const updateBookingStatus = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const updated = await bookingService.updateBookingStatus(id, status);
+    if (!updated) {
+      return sendError(res, `Booking '${id}' not found`, 404);
+    }
+    return sendSuccess(res, updated, 'Booking status updated successfully');
+  } catch (error: any) {
+    return sendError(res, error.message || 'Failed to update booking status', 500);
+  }
+};

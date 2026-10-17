@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mockBookings = exports.mockProducts = exports.mockCategories = void 0;
+exports.mockOrders = exports.mockBookings = exports.mockProducts = exports.mockCategories = void 0;
 exports.mockCategories = [
     {
         id: 'cat-food-grocery',
@@ -445,22 +445,5 @@ exports.mockProducts = [
         ]
     }
 ];
-exports.mockBookings = [
-    {
-        id: 'book-sample-1',
-        bookingReference: 'MC-LUG-9021',
-        customerName: 'Sarah Jenkins',
-        customerEmail: 'sarah.j@example.com',
-        customerPhone: '+44 7700 900123',
-        whatsapp: '+447700900123',
-        bagCount: 2,
-        durationType: '3h',
-        durationHours: 3,
-        dropoffTime: new Date(Date.now() + 3600000).toISOString(),
-        pickupTime: new Date(Date.now() + 4 * 3600000).toISOString(),
-        totalPrice: 10.00,
-        status: 'CONFIRMED',
-        notes: '2 medium suitcases. Arriving by Tram 28.',
-        createdAt: new Date().toISOString()
-    }
-];
+exports.mockBookings = [];
+exports.mockOrders = [];

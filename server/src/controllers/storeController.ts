@@ -32,3 +32,12 @@ export const checkoutOrder = (req: Request, res: Response) => {
     return sendError(res, error.message || 'Failed to process order', 400);
   }
 };
+
+export const updateStoreRates = (req: Request, res: Response) => {
+  try {
+    const updatedRates = storeService.updateRates(req.body);
+    return sendSuccess(res, updatedRates, 'Luggage storage rates updated successfully');
+  } catch (error: any) {
+    return sendError(res, error.message || 'Failed to update luggage rates', 400);
+  }
+};

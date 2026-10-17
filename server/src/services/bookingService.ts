@@ -1,4 +1,4 @@
-import { mockBookings } from '../data/mockDatabase.js';
+import { dbStore } from '../data/dbStore.js';
 import { config } from '../config/index.js';
 import { LuggageBookingDTO, LuggageBookingRequest } from '../types/index.js';
 import { formatLuggageWhatsAppMessage } from '../utils/whatsapp.js';
@@ -75,7 +75,7 @@ export class BookingService {
       createdAt: new Date().toISOString()
     };
 
-    mockBookings.push(newBooking);
+    dbStore.createBooking(newBooking);
 
     const whatsappUrl = formatLuggageWhatsAppMessage(newBooking);
 
@@ -86,8 +86,16 @@ export class BookingService {
   }
 
   async getBookingByReference(reference: string): Promise<LuggageBookingDTO | null> {
-    const found = mockBookings.find(b => b.bookingReference === reference);
+    const found = dbStore.getBookingByReference(reference);
     return found || null;
+  }
+
+  async getAllBookings(): Promise<LuggageBookingDTO[]> {
+    return [...dbStore.getBookings()].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  async updateBookingStatus(idOrRef: string, status: any): Promise<LuggageBookingDTO | null> {
+    return dbStore.updateBookingStatus(idOrRef, status);
   }
 }
 
