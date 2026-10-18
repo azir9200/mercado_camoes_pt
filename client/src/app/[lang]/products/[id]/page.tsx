@@ -126,7 +126,7 @@ function ProductDetailContent() {
         <div className="space-y-6">
           <div className="space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-              {product.category ? (lang === 'pt' ? product.category.name_pt : product.category.name_en) : 'Mercado Camões'}
+              {product.category ? (lang === 'pt' ? product.category.name_pt : product.category.name_en) : 'Mercado De Camões'}
             </span>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
               {title}
@@ -179,11 +179,10 @@ function ProductDetailContent() {
               <button
                 type="button"
                 onClick={handleAddToCart}
-                className={`flex-1 py-3.5 px-6 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md ${
-                  isAdded
+                className={`flex-1 py-3.5 px-6 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md ${isAdded
                     ? 'bg-emerald-700 text-white'
                     : 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                }`}
+                  }`}
               >
                 {isAdded ? (
                   <>
@@ -201,7 +200,7 @@ function ProductDetailContent() {
 
             {/* Direct WhatsApp Ordering Alternative */}
             <a
-              href={`https://wa.me/351920319177?text=${encodeURIComponent(`Olá! Gostaria de encomendar ${quantity}x ${title} (€${(product.price * quantity).toFixed(2)}) para levantar no Mercado Camões (Rua Camões 242, Porto).`)}`}
+              href={`https://wa.me/351920319177?text=${encodeURIComponent(`Olá! Gostaria de encomendar ${quantity}x ${title} (€${(product.price * quantity).toFixed(2)}) para levantar no Mercado De Camões (Rua Camões 242, Porto).`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-3.5 px-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md"

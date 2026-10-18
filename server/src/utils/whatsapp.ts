@@ -20,7 +20,7 @@ export const formatOrderWhatsAppMessage = (order: OrderCheckoutRequest): string 
     .map((item, idx) => `${idx + 1}. ${item.name} x${item.quantity} - €${(item.unitPrice * item.quantity).toFixed(2)}`)
     .join('\n');
 
-  const text = `🛍️ *NOVA ENCOMENDA / NEW ORDER - Mercado Camões*
+  const text = `🛍️ *NOVA ENCOMENDA / NEW ORDER - Mercado De Camões*
 ----------------------------------------
 👤 *Cliente / Customer:* ${order.customerName}
 📞 *Contacto / Phone:* ${order.customerPhone}
@@ -51,7 +51,7 @@ export const formatLuggageWhatsAppMessage = (booking: LuggageBookingDTO): string
   });
 
   const text = `🧳 *RESERVA DE BAGAGEM / LUGGAGE STORAGE*
-*Mercado Camões - Lisboa*
+*Mercado De Camões - Lisboa*
 ----------------------------------------
 🔖 *Ref:* ${booking.bookingReference}
 👤 *Nome / Name:* ${booking.customerName}

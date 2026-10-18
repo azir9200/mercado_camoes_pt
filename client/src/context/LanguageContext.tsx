@@ -146,18 +146,18 @@ const translations: Record<Language, Translations> = {
       admin: 'Admin CMS'
     },
     hero: {
-      badge: '📍 Downtown Porto • Rua Camões 242',
-      titleLine1: 'Your Porto Gourmet Grocery &',
-      titleHighlight: 'Secure Luggage Sanctuary',
-      subtitle: 'Artisan Portuguese wines, regional cheeses, fresh delicacies, daily essentials, and monitored luggage storage on Rua Camões 242, Porto.',
+      badge: '📍 Rua de Camões 242, Porto, Post-code: 4000-140',
+      titleLine1: 'Your Convenience Store &',
+      titleHighlight: 'Secure Luggage Storage',
+      subtitle: 'Groceries, fresh food, regional cheeses, Portuguese specialties, daily essentials, and convenient luggage storage, with alcoholic beverages available at Rua Camões 242, Porto.',
       ctaProducts: 'Browse Store Catalog',
       ctaLuggage: 'Book Luggage Storage',
-      hoursPill: 'Open Daily 08:00 - 23:00',
+      hoursPill: 'Open Daily 11:00 - 23:59',
       locationPill: 'Rua Camões 242, Porto'
     },
     about: {
       title: 'Authentic Local Flavors, Modern City Convenience',
-      subtitle: 'Situated in the vibrant center of Porto, Mercado Camões caters to local residents, travelers, and food connoisseurs seeking quality groceries and trusted services.',
+      subtitle: 'Situated in the vibrant center of Porto, Mercado De Camões caters to local residents, travelers, and food connoisseurs seeking quality groceries and trusted services.',
       card1Title: 'Traditional Portuguese Goods',
       card1Desc: 'Crisp Vinho Verde, robust Douro reds, extra-virgin olive oils, artisanal tinned fish, and traditional cheeses.',
       card2Title: 'Secure Luggage Storage',
@@ -182,7 +182,7 @@ const translations: Record<Language, Translations> = {
     storage: {
       title: 'Secure Luggage Storage in Porto',
       subtitle: 'Drop your bags at Rua Camões 242 while exploring the historic streets, churches, and riverbanks of Porto. Simple transparent pricing from €2.50.',
-      whyUs: 'Why Store Bags with Mercado Camões?',
+      whyUs: 'Why Store Bags with Mercado De Camões?',
       safeSecure: 'Safe & Monitored Storage',
       safeSecureDesc: 'Your bags are stored in a monitored, climate-controlled space with staff on-site 7 days a week from 08:00 to 23:00.',
       pricing1h: '€2.50 / hour per bag',
@@ -247,7 +247,7 @@ const translations: Record<Language, Translations> = {
       heart: 'Made with passion in Porto, Portugal.'
     },
     admin: {
-      title: 'Mercado Camões CMS',
+      title: 'Mercado De Camões CMS',
       subtitle: 'Manage inventory, categories, luggage storage rates, and incoming customer orders.',
       tabs: {
         products: 'Products',
@@ -283,9 +283,10 @@ const translations: Record<Language, Translations> = {
       ctaLuggage: 'Reservar Guarda de Malas',
       hoursPill: 'Aberto Diariamente: 08:00 - 23:00',
       locationPill: 'Rua Camões 242, Porto'
+
     },
     about: {
-      title: 'Bem-vindo ao Mercado Camões Porto',
+      title: 'Bem-vindo ao Mercado De Camões Porto',
       subtitle: 'A sua loja de conveniência e mercearia de bairro que serve residentes, turistas e amantes da gastronomia portuguesa com produtos de excelência.',
       card1Title: 'Sabores Tradicionais Portugueses',
       card1Desc: 'Vinho Verde estaladiço, tintos do Douro, azeite virgem extra, conservas artesanais e queijos da serra selecionados.',
@@ -376,7 +377,7 @@ const translations: Record<Language, Translations> = {
       heart: 'Feito com orgulho e dedicação no Porto, Portugal.'
     },
     admin: {
-      title: 'Painel de Gestão Mercado Camões',
+      title: 'Painel de Gestão Mercado De Camões',
       subtitle: 'Controle de stock, categorias de produtos, tarifas de bagagem e encomendas recebidas.',
       tabs: {
         products: 'Produtos',

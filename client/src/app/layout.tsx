@@ -3,12 +3,12 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Mercado Camões | Convenience Grocery & Luggage Storage in Chiado, Lisbon',
-    template: '%s | Mercado Camões'
+    default: 'Mercado De Camões | Convenience Grocery & Luggage Storage in Chiado, Lisbon',
+    template: '%s | Mercado De Camões'
   },
   description: 'Neighborhood convenience grocery store, Portuguese specialties, wines, fresh bread, and secure luggage storage in Praça Luís de Camões, Chiado, Lisbon.',
   keywords: [
-    'Mercado Camões',
+    'Mercado De Camões',
     'convenience store Lisbon',
     'luggage storage Chiado',
     'depósito de bagagem Lisboa',
@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     'pastéis de nata',
     'Airbnb luggage drop'
   ],
-  authors: [{ name: 'Mercado Camões' }],
+  authors: [{ name: 'Mercado De Camões' }],
   metadataBase: new URL('https://mercadocamoes.pt'),
   openGraph: {
-    title: 'Mercado Camões | Lisbon Convenience & Luggage Haven',
+    title: 'Mercado De Camões | Lisbon Convenience & Luggage Haven',
     description: 'Fine Portuguese wines, fresh delicacies, everyday groceries & secure luggage storage right on Praça Luís de Camões.',
     url: 'https://mercadocamoes.pt',
-    siteName: 'Mercado Camões',
+    siteName: 'Mercado De Camões',
     locale: 'pt_PT',
     type: 'website'
   }

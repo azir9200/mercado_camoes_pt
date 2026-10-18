@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
     const dropoff = new Date(booking.dropoffTime).toLocaleString('pt-PT');
     const text = `🧳 *RESERVA DE BAGAGEM / LUGGAGE STORAGE*
-*Mercado Camões - Porto*
+*Mercado De Camões - Porto*
 ----------------------------------------
 🔖 *Ref:* ${booking.bookingReference}
 👤 *Nome / Name:* ${booking.customerName}

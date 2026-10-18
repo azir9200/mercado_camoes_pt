@@ -172,7 +172,7 @@ export default function ContactPage() {
           className="lg:col-span-7 h-[580px] rounded-3xl overflow-hidden border border-slate-200/90 dark:border-slate-800 shadow-xl bg-slate-100 dark:bg-slate-900 relative"
         >
           <iframe
-            title="Mercado Camões Porto - Rua Camões 242"
+            title="Mercado De Camões Porto - Rua Camões 242"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3004.143015486518!2d-8.610023623438814!3d41.15570081049386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd2464e1c2d0f367%3A0xb30e8c14828f0ee0!2sRua%20de%20Cam%C3%B5es%20242%2C%204000-140%20Porto!5e0!3m2!1sen!2spt!4v1710000000000!5m2!1sen!2spt"
             width="100%"
             height="100%"
@@ -189,7 +189,7 @@ export default function ContactPage() {
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
                 <span className="font-black text-sm text-slate-900 dark:text-white">
-                  Mercado Camões Porto
+                  Mercado De Camões Porto
                 </span>
               </div>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">

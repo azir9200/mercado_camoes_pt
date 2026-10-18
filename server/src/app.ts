@@ -29,7 +29,7 @@ app.use('/api/v1', apiRoutes);
 // Root Welcome Route
 app.get('/', (req, res) => {
   res.json({
-    message: 'Welcome to Mercado Camões API',
+    message: 'Welcome to Mercado De Camões API',
     documentation: '/api/v1/health',
     endpoints: {
       categories: '/api/v1/categories',

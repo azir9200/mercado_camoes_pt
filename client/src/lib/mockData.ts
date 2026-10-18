@@ -397,7 +397,7 @@ export const initialProducts: Product[] = [
 ];
 
 export const initialStoreInfo: StoreInfo = {
-  name: 'Mercado Camões',
+  name: 'Mercado De Camões',
   address: 'Rua Camões 242, 4000-140 Porto, Portugal',
   phone: '+351 920 319 177',
   whatsapp: '+351920319177',

@@ -20,7 +20,7 @@ apiRouter.get('/health', (req, res) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
-    service: 'Mercado Camões API',
+    service: 'Mercado De Camões API',
     version: '1.0.0'
   });
 });

@@ -106,12 +106,13 @@ model LuggageBooking {
 
 model StoreSettings {
   id                    String   @id @default(uuid())
-  name                  String   @default("Mercado Camões")
+  name                  String   @default("Mercado De Camões")
   address               String   @default("Praça Luís de Camões 22, 1200-243 Lisboa, Portugal")
   phone                 String   @default("+351 21 345 6789")
   whatsapp              String   @default("+351 91 234 5678")
   email                 String   @default("info@mercadocamoes.pt")
-  openingHours_en       String   @default("Mon - Sun: 08:00 - 23:00")
+  openingHours_en       String   @default("Mon - Sun: 10:00 - 23:59
+")
   openingHours_pt       String   @default("Seg - Dom: 08:00 - 23:00")
   rate_1h_per_bag       Float    @default(2.50)
   rate_3h_per_bag       Float    @default(5.00)

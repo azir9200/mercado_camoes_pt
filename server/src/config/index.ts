@@ -8,7 +8,7 @@ export const config = {
   clientUrl: process.env.CLIENT_URL || 'http://localhost:3000',
   databaseUrl: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/mercado_camoes?schema=public',
   store: {
-    name: process.env.STORE_NAME || 'Mercado Camões',
+    name: process.env.STORE_NAME || 'Mercado De Camões',
     address: process.env.STORE_ADDRESS || 'Rua Camões 242, 4000-140 Porto, Portugal',
     phone: process.env.STORE_PHONE || '+351 920 319 177',
     whatsapp: process.env.WHATSAPP_PHONE || '+351920319177',

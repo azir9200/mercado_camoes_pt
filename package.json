@@ -2,7 +2,7 @@
   "name": "mercado-camoes-workspace",
   "version": "1.0.0",
   "private": true,
-  "description": "Mercado Camões - Fullstack Bilingual Application",
+  "description": "Mercado De Camões - Fullstack Bilingual Application",
   "scripts": {
     "dev": "concurrently -n \"SERVER,CLIENT\" -c \"cyan,green\" \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
     "dev:client": "npm run dev --prefix client",

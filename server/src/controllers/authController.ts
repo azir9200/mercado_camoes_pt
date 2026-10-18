@@ -54,7 +54,7 @@ export const adminLogin = async (req: Request, res: Response) => {
     return sendSuccess(res, {
       token,
       admin: {
-        name: 'Administrador Mercado Camões',
+        name: 'Administrador Mercado De Camões',
         phone: '+351 920 319 177',
         role: 'SUPER_ADMIN',
         authenticatedAt: new Date().toISOString()
@@ -82,7 +82,7 @@ export const verifySession = async (req: Request, res: Response) => {
     return sendSuccess(res, {
       valid: true,
       admin: {
-        name: 'Administrador Mercado Camões',
+        name: 'Administrador Mercado De Camões',
         phone: '+351 920 319 177',
         role: 'SUPER_ADMIN'
       }

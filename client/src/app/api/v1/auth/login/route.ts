@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
       data: {
         token,
         admin: {
-          name: 'Administrador Mercado Camões',
+          name: 'Administrador Mercado De Camões',
           phone: '+351 920 319 177',
           role: 'SUPER_ADMIN'
         }

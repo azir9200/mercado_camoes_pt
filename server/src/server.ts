@@ -5,7 +5,7 @@ const startServer = () => {
   try {
     app.listen(config.port, () => {
       console.log(`===============================================`);
-      console.log(` 🛍️  Mercado Camões API Server running!        `);
+      console.log(` 🛍️  Mercado De Camões API Server running!        `);
       console.log(` 🌍  Port: ${config.port}                      `);
       console.log(` 🌐  Client URL: ${config.clientUrl}           `);
       console.log(` 🔗  Endpoints: http://localhost:${config.port}/api/v1/health `);

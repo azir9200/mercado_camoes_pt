@@ -359,8 +359,8 @@ export default function AdminPage() {
             </h1>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               {isPt
-                ? 'Área restrita exclusivamente ao gestor do Mercado Camões'
-                : 'Restricted area exclusively for the Mercado Camões manager'}
+                ? 'Área restrita exclusivamente ao gestor do Mercado De Camões'
+                : 'Restricted area exclusively for the Mercado De Camões manager'}
             </p>
           </div>
 
@@ -545,11 +545,10 @@ export default function AdminPage() {
       <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 max-w-2xl">
         <button
           onClick={() => setActiveTab('products')}
-          className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
-            activeTab === 'products'
+          className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${activeTab === 'products'
               ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
               : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-          }`}
+            }`}
         >
           <Package className="w-4 h-4 text-emerald-500" />
           <span>{t.admin.tabs.products}</span>
@@ -557,11 +556,10 @@ export default function AdminPage() {
 
         <button
           onClick={() => setActiveTab('categories')}
-          className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
-            activeTab === 'categories'
+          className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${activeTab === 'categories'
               ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
               : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-          }`}
+            }`}
         >
           <FolderTree className="w-4 h-4 text-emerald-500" />
           <span>{t.admin.tabs.categories}</span>
@@ -569,11 +567,10 @@ export default function AdminPage() {
 
         <button
           onClick={() => setActiveTab('rates')}
-          className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
-            activeTab === 'rates'
+          className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${activeTab === 'rates'
               ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
               : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-          }`}
+            }`}
         >
           <Clock className="w-4 h-4 text-emerald-500" />
           <span>{t.admin.tabs.rates}</span>
@@ -581,11 +578,10 @@ export default function AdminPage() {
 
         <button
           onClick={() => setActiveTab('orders')}
-          className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
-            activeTab === 'orders'
+          className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${activeTab === 'orders'
               ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
               : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-          }`}
+            }`}
         >
           <ClipboardList className="w-4 h-4 text-emerald-500" />
           <span>{t.admin.tabs.orders}</span>
@@ -894,11 +890,10 @@ export default function AdminPage() {
                 <button
                   key={st}
                   onClick={() => setOrderStatusFilter(st)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
-                    orderStatusFilter === st
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${orderStatusFilter === st
                       ? 'bg-slate-900 text-white dark:bg-emerald-600'
                       : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800'
-                  }`}
+                    }`}
                 >
                   {st === 'all' ? (isPt ? 'Todos' : 'All') : st}
                 </button>
@@ -937,11 +932,10 @@ export default function AdminPage() {
                           <span className="font-mono font-bold text-slate-900 dark:text-white block">
                             {order.orderNumber}
                           </span>
-                          <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                            order.orderType === 'WHATSAPP'
+                          <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${order.orderType === 'WHATSAPP'
                               ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
                               : 'bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300'
-                          }`}>
+                            }`}>
                             {order.orderType === 'WHATSAPP' ? '📱 WhatsApp' : '⚡ Direct API'}
                           </span>
                         </td>
@@ -977,15 +971,14 @@ export default function AdminPage() {
                           <select
                             value={order.status}
                             onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value as OrderStatus)}
-                            className={`px-3 py-1.5 rounded-xl text-xs font-black border cursor-pointer ${
-                              order.status === 'COMPLETED'
+                            className={`px-3 py-1.5 rounded-xl text-xs font-black border cursor-pointer ${order.status === 'COMPLETED'
                                 ? 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border-emerald-300'
                                 : order.status === 'CONFIRMED'
-                                ? 'bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border-blue-300'
-                                : order.status === 'CANCELLED'
-                                ? 'bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-300 border-red-300'
-                                : 'bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border-amber-300'
-                            }`}
+                                  ? 'bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border-blue-300'
+                                  : order.status === 'CANCELLED'
+                                    ? 'bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-300 border-red-300'
+                                    : 'bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border-amber-300'
+                              }`}
                           >
                             <option value="PENDING">PENDING</option>
                             <option value="CONFIRMED">CONFIRMED</option>

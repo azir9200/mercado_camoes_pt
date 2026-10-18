@@ -37,7 +37,7 @@ function purgeLegacyDummyData(): void {
   if (typeof window === 'undefined') return;
   try {
     const dummyNames = ['tiago santos', 'emma watson', 'sarah jenkins', 'miguel albuquerque', 'test customer'];
-    
+
     const rawOrders = localStorage.getItem(STORAGE_KEYS.ORDERS);
     if (rawOrders) {
       const orders = JSON.parse(rawOrders);
@@ -576,7 +576,7 @@ export async function createLuggageBooking(
 
   const dropoff = new Date(booking.dropoffTime).toLocaleString('pt-PT');
   const text = `🧳 *RESERVA DE BAGAGEM / LUGGAGE STORAGE*
-*Mercado Camões - Porto*
+*Mercado De Camões - Porto*
 ----------------------------------------
 🔖 *Ref:* ${ref}
 👤 *Nome / Name:* ${booking.customerName}
@@ -696,18 +696,18 @@ export function generateCartWhatsAppUrl(
   const isEs = lang === 'es';
 
   const titleHeader = isPt
-    ? `🛍️ *NOVA ENCOMENDA - Mercado Camões Porto*`
+    ? `🛍️ *NOVA ENCOMENDA - Mercado De Camões Porto*`
     : isEs
-    ? `🛍️ *NUEVO PEDIDO - Mercado Camões Porto*`
-    : `🛍️ *NEW ORDER - Mercado Camões Porto*`;
+      ? `🛍️ *NUEVO PEDIDO - Mercado De Camões Porto*`
+      : `🛍️ *NEW ORDER - Mercado De Camões Porto*`;
 
   const customerLabel = isPt ? `👤 *Cliente:*` : isEs ? `👤 *Cliente:*` : `👤 *Customer:*`;
   const contactLabel = isPt ? `📞 *Contacto:*` : isEs ? `📞 *Teléfono:*` : `📞 *Contact:*`;
   const optionLabel = isPt
     ? `🚚 *Modalidade:* ${deliveryOption === 'pickup' ? 'Levantamento na Loja (Rua Camões 242)' : 'Entrega no Alojamento / Hotel'}`
     : isEs
-    ? `🚚 *Modalidad:* ${deliveryOption === 'pickup' ? 'Recogida en Tienda (Rua Camões 242)' : 'Entrega en Alojamiento / Hotel'}`
-    : `🚚 *Option:* ${deliveryOption === 'pickup' ? 'Store Pickup (Rua Camões 242)' : 'Local Delivery to Accommodation'}`;
+      ? `🚚 *Modalidad:* ${deliveryOption === 'pickup' ? 'Recogida en Tienda (Rua Camões 242)' : 'Entrega en Alojamiento / Hotel'}`
+      : `🚚 *Option:* ${deliveryOption === 'pickup' ? 'Store Pickup (Rua Camões 242)' : 'Local Delivery to Accommodation'}`;
 
   const notesLine = notes ? (isPt ? `📝 *Observações:* ${notes}\n` : `📝 *Notes:* ${notes}\n`) : '';
   const itemsHeader = isPt ? `🛒 *Artigos Encomendados:*` : isEs ? `🛒 *Artículos:*` : `🛒 *Items Ordered:*`;
@@ -723,8 +723,8 @@ export function generateCartWhatsAppUrl(
   const footerMessage = isPt
     ? `📍 *Localização:* Rua Camões 242, 4000-140 Porto\nPor favor confirmem a disponibilidade do pedido. Obrigado!`
     : isEs
-    ? `📍 *Ubicación:* Rua Camões 242, 4000-140 Porto\nPor favor confirmen disponibilidad del pedido. ¡Muchas gracias!`
-    : `📍 *Location:* Rua Camões 242, 4000-140 Porto, Portugal\nPlease confirm order availability and ETA. Thank you!`;
+      ? `📍 *Ubicación:* Rua Camões 242, 4000-140 Porto\nPor favor confirmen disponibilidad del pedido. ¡Muchas gracias!`
+      : `📍 *Location:* Rua Camões 242, 4000-140 Porto, Portugal\nPlease confirm order availability and ETA. Thank you!`;
 
   const text = `${titleHeader}
 ----------------------------------------

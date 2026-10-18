@@ -113,7 +113,14 @@ export default function HomePage() {
               </div>
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
                 <MapPin className="w-4 h-4 text-emerald-400" />
-                <span>{t.hero.locationPill}</span>
+                <a
+                  href="https://www.google.com/maps/dir/?api=1&destination=Rua%20de%20Cam%C3%B5es%20242%2C%204000-144%20Porto%2C%20Portugal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cursor-pointer hover:underline"
+                >
+                  {t.hero.locationPill}
+                </a>
               </div>
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/60 border border-slate-700/60">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
