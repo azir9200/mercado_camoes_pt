@@ -2,6 +2,7 @@ import { Router, RequestHandler } from 'express';
 import multer from 'multer';
 import { sendError } from '../utils/response.js';
 import { getProductImage, productImageUpload, uploadProductImage } from '../controllers/uploadController.js';
+import { requireAdmin } from '../middleware/requireAdmin.js';
 
 const router = Router();
 
@@ -16,7 +17,7 @@ const handleProductImageUpload: RequestHandler = (req, res, next) => {
   });
 };
 
-router.post('/product-image', handleProductImageUpload, uploadProductImage);
+router.post('/product-image', requireAdmin, handleProductImageUpload, uploadProductImage);
 router.get('/products/:filename', getProductImage);
 
 export default router;

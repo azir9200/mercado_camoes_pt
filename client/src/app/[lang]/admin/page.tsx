@@ -23,7 +23,6 @@ import {
   loginAdmin,
   isStoredAdminAuthenticated,
   logoutAdmin,
-  AUTHORIZED_ADMIN_CREDENTIALS
 } from '../../../lib/api';
 import { Product, Category, Order, OrderStatus, LuggageBookingConfirmation } from '../../../types';
 import {

@@ -9,9 +9,12 @@ const index_js_1 = require("./config/index.js");
 const apiRoutes_js_1 = __importDefault(require("./routes/apiRoutes.js"));
 const errorHandler_js_1 = require("./middleware/errorHandler.js");
 const app = (0, express_1.default)();
+const allowedOrigins = index_js_1.config.clientUrl.split(',').map(origin => origin.trim()).filter(Boolean);
 // Middlewares
 app.use((0, cors_1.default)({
-    origin: true,
+    origin: (origin, callback) => {
+        callback(null, !origin || allowedOrigins.includes(origin));
+    },
     credentials: true
 }));
 app.use(express_1.default.json());
@@ -28,7 +31,7 @@ app.use('/api/v1', apiRoutes_js_1.default);
 // Root Welcome Route
 app.get('/', (req, res) => {
     res.json({
-        message: 'Welcome to Mercado Camões API',
+        message: 'Welcome to Mercado De Camões API',
         documentation: '/api/v1/health',
         endpoints: {
             categories: '/api/v1/categories',

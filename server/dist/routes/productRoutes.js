@@ -2,11 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const productController_js_1 = require("../controllers/productController.js");
+const requireAdmin_js_1 = require("../middleware/requireAdmin.js");
 const router = (0, express_1.Router)();
 router.get('/', productController_js_1.getProducts);
 router.get('/featured', productController_js_1.getFeaturedProducts);
 router.get('/:id', productController_js_1.getProductById);
-router.post('/', productController_js_1.createProduct);
-router.put('/:id', productController_js_1.updateProduct);
-router.delete('/:id', productController_js_1.deleteProduct);
+router.post('/', requireAdmin_js_1.requireAdmin, productController_js_1.createProduct);
+router.put('/:id', requireAdmin_js_1.requireAdmin, productController_js_1.updateProduct);
+router.delete('/:id', requireAdmin_js_1.requireAdmin, productController_js_1.deleteProduct);
 exports.default = router;

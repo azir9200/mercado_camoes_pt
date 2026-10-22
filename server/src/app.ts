@@ -5,10 +5,13 @@ import apiRoutes from './routes/apiRoutes.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 const app = express();
+const allowedOrigins = config.clientUrl.split(',').map(origin => origin.trim()).filter(Boolean);
 
 // Middlewares
 app.use(cors({
-  origin: true,
+  origin: (origin, callback) => {
+    callback(null, !origin || allowedOrigins.includes(origin));
+  },
   credentials: true
 }));
 

@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { getOrders, createOrder, updateOrderStatus } from '../controllers/orderController.js';
+import { requireAdmin } from '../middleware/requireAdmin.js';
 
 const router = Router();
 
-router.get('/', getOrders);
+router.get('/', requireAdmin, getOrders);
 router.post('/', createOrder);
-router.patch('/:id/status', updateOrderStatus);
+router.patch('/:id/status', requireAdmin, updateOrderStatus);
 
 export default router;

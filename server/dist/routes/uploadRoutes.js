@@ -7,6 +7,7 @@ const express_1 = require("express");
 const multer_1 = __importDefault(require("multer"));
 const response_js_1 = require("../utils/response.js");
 const uploadController_js_1 = require("../controllers/uploadController.js");
+const requireAdmin_js_1 = require("../middleware/requireAdmin.js");
 const router = (0, express_1.Router)();
 const handleProductImageUpload = (req, res, next) => {
     uploadController_js_1.productImageUpload.single('image')(req, res, (error) => {
@@ -19,6 +20,6 @@ const handleProductImageUpload = (req, res, next) => {
         return (0, response_js_1.sendError)(res, error instanceof Error ? error.message : 'Invalid image upload.', 400);
     });
 };
-router.post('/product-image', handleProductImageUpload, uploadController_js_1.uploadProductImage);
+router.post('/product-image', requireAdmin_js_1.requireAdmin, handleProductImageUpload, uploadController_js_1.uploadProductImage);
 router.get('/products/:filename', uploadController_js_1.getProductImage);
 exports.default = router;

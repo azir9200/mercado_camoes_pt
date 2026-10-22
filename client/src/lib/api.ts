@@ -32,6 +32,14 @@ const STORAGE_KEYS = {
   BOOKINGS: 'mc_live_bookings'
 };
 
+const ADMIN_TOKEN_KEY = 'mc_admin_session_token';
+
+function adminAuthHeaders(): Record<string, string> {
+  if (typeof window === 'undefined') return {};
+  const token = localStorage.getItem(ADMIN_TOKEN_KEY);
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 // Automatic filter to purge old mock/dummy orders and bookings from user localStorage
 function purgeLegacyDummyData(): void {
   if (typeof window === 'undefined') return;
@@ -203,6 +211,7 @@ export async function uploadProductImage(file: File): Promise<string> {
 
   const res = await fetch(`${API_BASE}/uploads/product-image`, {
     method: 'POST',
+      headers: adminAuthHeaders(),
     body: formData
   });
   const json = await res.json();
@@ -240,7 +249,7 @@ export async function createProduct(productData: Partial<Product>): Promise<Prod
   try {
     const res = await fetch(`${API_BASE}/products`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
       body: JSON.stringify(productData)
     });
     if (res.ok) {
@@ -269,7 +278,7 @@ export async function updateProduct(id: string, productData: Partial<Product>): 
   try {
     const res = await fetch(`${API_BASE}/products/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
       body: JSON.stringify(productData)
     });
     if (res.ok) {
@@ -296,7 +305,7 @@ export async function updateProduct(id: string, productData: Partial<Product>): 
 export async function deleteProduct(id: string): Promise<boolean> {
   // 1. Send to Backend
   try {
-    await fetch(`${API_BASE}/products/${id}`, { method: 'DELETE' });
+    await fetch(`${API_BASE}/products/${id}`, { method: 'DELETE', headers: adminAuthHeaders() });
   } catch {
     // ignore
   }
@@ -325,7 +334,7 @@ export async function createCategory(catData: Partial<Category>): Promise<Catego
   try {
     const res = await fetch(`${API_BASE}/categories`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
       body: JSON.stringify(catData)
     });
     if (res.ok) {
@@ -352,7 +361,7 @@ export async function updateCategory(id: string, catData: Partial<Category>): Pr
   try {
     await fetch(`${API_BASE}/categories/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
       body: JSON.stringify(catData)
     });
   } catch {
@@ -374,7 +383,7 @@ export async function updateCategory(id: string, catData: Partial<Category>): Pr
 export async function deleteCategory(id: string): Promise<boolean> {
   // 1. Send to Backend
   try {
-    await fetch(`${API_BASE}/categories/${id}`, { method: 'DELETE' });
+    await fetch(`${API_BASE}/categories/${id}`, { method: 'DELETE', headers: adminAuthHeaders() });
   } catch {
     // Backend offline
   }
@@ -421,7 +430,7 @@ export async function updateLuggageRates(rates: {
   try {
     const res = await fetch(`${API_BASE}/store/rates`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
       body: JSON.stringify(rates)
     });
     if (res.ok) {
@@ -507,7 +516,10 @@ export async function fetchOrders(): Promise<Order[]> {
 
   // 1. Try Backend
   try {
-    const res = await fetch(`${API_BASE}/orders`, { cache: 'no-store' });
+    const res = await fetch(`${API_BASE}/orders`, {
+      cache: 'no-store',
+      headers: adminAuthHeaders()
+    });
     if (res.ok) {
       const json = await res.json();
       if (Array.isArray(json.data)) {
@@ -540,7 +552,7 @@ export async function updateOrderStatus(orderId: string, status: OrderStatus): P
   try {
     await fetch(`${API_BASE}/orders/${orderId}/status`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
       body: JSON.stringify({ status })
     });
   } catch {
@@ -645,7 +657,10 @@ export async function fetchLuggageBookings(): Promise<LuggageBookingConfirmation
 
   // 1. Try Backend
   try {
-    const res = await fetch(`${API_BASE}/storage/bookings`, { cache: 'no-store' });
+    const res = await fetch(`${API_BASE}/storage/bookings`, {
+      cache: 'no-store',
+      headers: adminAuthHeaders()
+    });
     if (res.ok) {
       const json = await res.json();
       if (Array.isArray(json.data)) {
@@ -676,7 +691,7 @@ export async function updateLuggageBookingStatus(bookingId: string, status: stri
   try {
     await fetch(`${API_BASE}/storage/bookings/${bookingId}/status`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...adminAuthHeaders() },
       body: JSON.stringify({ status })
     });
   } catch {
@@ -762,13 +777,6 @@ ${footerMessage}`;
    ADMIN AUTHENTICATION & SECURITY
    ========================================================================= */
 
-export const AUTHORIZED_ADMIN_CREDENTIALS = {
-  phone: '+351 920 319 177',
-  password: 'admin@12345'
-};
-
-const ADMIN_TOKEN_KEY = 'mc_admin_session_token';
-
 export async function loginAdmin(
   identifier: string,
   password: string
@@ -788,24 +796,9 @@ export async function loginAdmin(
     }
     return { success: false, error: json.error || 'Credenciais inválidas' };
   } catch {
-    // Client-side fallback if backend is unreachable
-    const cleanInput = identifier.trim().replace(/\s+/g, '');
-    const validClean = AUTHORIZED_ADMIN_CREDENTIALS.phone.replace(/\s+/g, '');
-    if (
-      (cleanInput === validClean || cleanInput === '351920319177' || cleanInput.toLowerCase() === 'admin') &&
-      password === AUTHORIZED_ADMIN_CREDENTIALS.password
-    ) {
-      const fallbackToken = btoa(
-        JSON.stringify({ phone: '+351 920 319 177', role: 'SUPER_ADMIN', expiresAt: Date.now() + 86400000 * 7 })
-      );
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(ADMIN_TOKEN_KEY, fallbackToken);
-      }
-      return { success: true, token: fallbackToken };
-    }
     return {
       success: false,
-      error: 'Credenciais inválidas. Apenas o administrador autorizado (+351 920 319 177) pode aceder.'
+      error: 'Admin service unavailable. Please try again.'
     };
   }
 }

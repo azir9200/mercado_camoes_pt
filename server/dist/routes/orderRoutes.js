@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const orderController_js_1 = require("../controllers/orderController.js");
+const requireAdmin_js_1 = require("../middleware/requireAdmin.js");
+const router = (0, express_1.Router)();
+router.get('/', requireAdmin_js_1.requireAdmin, orderController_js_1.getOrders);
+router.post('/', orderController_js_1.createOrder);
+router.patch('/:id/status', requireAdmin_js_1.requireAdmin, orderController_js_1.updateOrderStatus);
+exports.default = router;
