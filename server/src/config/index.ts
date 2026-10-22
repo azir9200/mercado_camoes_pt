@@ -4,6 +4,7 @@ dotenv.config();
 
 export const config = {
   port: process.env.PORT ? parseInt(process.env.PORT, 10) : 5000,
+  host: process.env.HOST || '127.0.0.1',
   nodeEnv: process.env.NODE_ENV || 'development',
   clientUrl: process.env.CLIENT_URL || 'http://localhost:3000',
   databaseUrl: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/mercado_camoes?schema=public',

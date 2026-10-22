@@ -197,6 +197,23 @@ export async function fetchProductById(id: string): Promise<Product | null> {
   return list.find(p => p.id === id || p.sku === id) || null;
 }
 
+export async function uploadProductImage(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const res = await fetch(`${API_BASE}/uploads/product-image`, {
+    method: 'POST',
+    body: formData
+  });
+  const json = await res.json();
+  if (!res.ok || !json.data?.url) {
+    throw new Error(json.error || 'Image upload failed. Please try again.');
+  }
+
+  const apiOrigin = API_BASE.startsWith('http') ? new URL(API_BASE).origin : window.location.origin;
+  return new URL(json.data.url, apiOrigin).toString();
+}
+
 export async function createProduct(productData: Partial<Product>): Promise<Product> {
   const newProd: Product = {
     id: `prod-${Date.now()}`,

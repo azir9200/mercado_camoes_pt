@@ -77,8 +77,7 @@ async function main() {
         phone: '+351 21 345 6789',
         whatsapp: '+351 91 234 5678',
         email: 'info@mercadocamoes.pt',
-        openingHours_en: 'Mon - Sun: 10:00 - 23:59
-',
+        openingHours_en: 'Mon - Sun: 10:00 - 23:59',
         openingHours_pt: 'Seg - Dom: 08:00 - 23:00',
         rate_1h_per_bag: 2.50,
         rate_3h_per_bag: 5.00,

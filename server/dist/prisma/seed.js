@@ -4,7 +4,7 @@ const client_1 = require("@prisma/client");
 const mockDatabase_js_1 = require("../data/mockDatabase.js");
 const prisma = new client_1.PrismaClient();
 async function main() {
-    console.log('🌱 Starting Mercado Camões Database Seeding...');
+    console.log('🌱 Starting Mercado De Camões Database Seeding...');
     // 1. Seed Categories
     for (const cat of mockDatabase_js_1.mockCategories) {
         await prisma.category.upsert({
@@ -68,12 +68,12 @@ async function main() {
     if (!existingSettings) {
         await prisma.storeSettings.create({
             data: {
-                name: 'Mercado Camões',
+                name: 'Mercado De Camões',
                 address: 'Praça Luís de Camões 22, 1200-243 Lisboa, Portugal',
                 phone: '+351 21 345 6789',
                 whatsapp: '+351 91 234 5678',
                 email: 'info@mercadocamoes.pt',
-                openingHours_en: 'Mon - Sun: 08:00 - 23:00',
+                openingHours_en: 'Mon - Sun: 10:00 - 23:59',
                 openingHours_pt: 'Seg - Dom: 08:00 - 23:00',
                 rate_1h_per_bag: 2.50,
                 rate_3h_per_bag: 5.00,

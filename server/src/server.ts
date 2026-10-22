@@ -3,10 +3,10 @@ import { config } from './config/index.js';
 
 const startServer = () => {
   try {
-    app.listen(config.port, () => {
+    app.listen(config.port, config.host, () => {
       console.log(`===============================================`);
       console.log(` 🛍️  Mercado De Camões API Server running!        `);
-      console.log(` 🌍  Port: ${config.port}                      `);
+      console.log(` 🌍  Address: ${config.host}:${config.port}       `);
       console.log(` 🌐  Client URL: ${config.clientUrl}           `);
       console.log(` 🔗  Endpoints: http://localhost:${config.port}/api/v1/health `);
       console.log(`===============================================`);

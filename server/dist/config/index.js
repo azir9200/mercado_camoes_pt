@@ -8,11 +8,12 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 exports.config = {
     port: process.env.PORT ? parseInt(process.env.PORT, 10) : 5000,
+    host: process.env.HOST || '127.0.0.1',
     nodeEnv: process.env.NODE_ENV || 'development',
     clientUrl: process.env.CLIENT_URL || 'http://localhost:3000',
     databaseUrl: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/mercado_camoes?schema=public',
     store: {
-        name: process.env.STORE_NAME || 'Mercado Camões',
+        name: process.env.STORE_NAME || 'Mercado De Camões',
         address: process.env.STORE_ADDRESS || 'Rua Camões 242, 4000-140 Porto, Portugal',
         phone: process.env.STORE_PHONE || '+351 920 319 177',
         whatsapp: process.env.WHATSAPP_PHONE || '+351920319177',

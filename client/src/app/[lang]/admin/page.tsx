@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { useLanguage } from '../../../context/LanguageContext';
 import {
   fetchProducts,
+  uploadProductImage,
   createProduct,
   updateProduct,
   deleteProduct,
@@ -51,7 +53,10 @@ import {
   LogOut,
   Phone,
   KeyRound,
-  ArrowUpRight
+  ArrowUpRight,
+  ImagePlus,
+  Link2,
+  Upload
 } from 'lucide-react';
 
 export default function AdminPage() {
@@ -87,6 +92,11 @@ export default function AdminPage() {
   // Modals
   const [productModalOpen, setProductModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [productImageFile, setProductImageFile] = useState<File | null>(null);
+  const [productImagePreview, setProductImagePreview] = useState('');
+  const [isDraggingProductImage, setIsDraggingProductImage] = useState(false);
+  const [productSaveError, setProductSaveError] = useState('');
+  const [savingProduct, setSavingProduct] = useState(false);
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
 
@@ -112,6 +122,11 @@ export default function AdminPage() {
     description_pt: '',
     icon: 'ShoppingBag'
   });
+
+  useEffect(() => {
+    if (!productImagePreview.startsWith('blob:')) return;
+    return () => URL.revokeObjectURL(productImagePreview);
+  }, [productImagePreview]);
 
   // Load all initial data
   const loadData = async () => {
@@ -180,6 +195,9 @@ export default function AdminPage() {
   // Handlers for Products
   const handleOpenAddProduct = () => {
     setEditingProduct(null);
+    setProductImageFile(null);
+    setProductImagePreview('https://images.unsplash.com/photo-1544943910-4c1dc44aab44?auto=format&fit=crop&w=600&q=80');
+    setProductSaveError('');
     setProdForm({
       name_en: '',
       name_pt: '',
@@ -197,6 +215,9 @@ export default function AdminPage() {
 
   const handleOpenEditProduct = (prod: Product) => {
     setEditingProduct(prod);
+    setProductImageFile(null);
+    setProductImagePreview(prod.images?.[0]?.url || '');
+    setProductSaveError('');
     setProdForm({
       name_en: prod.name_en,
       name_pt: prod.name_pt,
@@ -212,34 +233,63 @@ export default function AdminPage() {
     setProductModalOpen(true);
   };
 
+  const handleProductImageFile = (file: File) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+    if (!allowedTypes.includes(file.type)) {
+      setProductSaveError(isPt ? 'Escolha uma imagem JPEG, PNG, WebP ou AVIF.' : 'Choose a JPEG, PNG, WebP, or AVIF image.');
+      setProductImageFile(null);
+      setProductImagePreview(prodForm.imageUrl);
+      return;
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      setProductSaveError(isPt ? 'A imagem deve ter menos de 8 MB.' : 'Image must be smaller than 8 MB.');
+      setProductImageFile(null);
+      setProductImagePreview(prodForm.imageUrl);
+      return;
+    }
+
+    setProductSaveError('');
+    setProductImageFile(file);
+    setProductImagePreview(URL.createObjectURL(file));
+  };
+
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
-    const payload = {
-      name_en: prodForm.name_en,
-      name_pt: prodForm.name_pt,
-      description_en: prodForm.description_en,
-      description_pt: prodForm.description_pt,
-      price: parseFloat(prodForm.price),
-      stock: parseInt(prodForm.stock, 10),
-      unit: prodForm.unit,
-      categoryId: prodForm.categoryId,
-      isFeatured: prodForm.isFeatured,
-      images: [
-        {
-          id: `img-${Date.now()}`,
-          url: prodForm.imageUrl,
-          isPrimary: true
-        }
-      ]
-    };
+    setSavingProduct(true);
+    setProductSaveError('');
+    try {
+      const imageUrl = productImageFile ? await uploadProductImage(productImageFile) : prodForm.imageUrl;
+      const payload = {
+        name_en: prodForm.name_en,
+        name_pt: prodForm.name_pt,
+        description_en: prodForm.description_en,
+        description_pt: prodForm.description_pt,
+        price: parseFloat(prodForm.price),
+        stock: parseInt(prodForm.stock, 10),
+        unit: prodForm.unit,
+        categoryId: prodForm.categoryId,
+        isFeatured: prodForm.isFeatured,
+        images: [
+          {
+            id: `img-${Date.now()}`,
+            url: imageUrl,
+            isPrimary: true
+          }
+        ]
+      };
 
-    if (editingProduct) {
-      await updateProduct(editingProduct.id, payload);
-    } else {
-      await createProduct(payload);
+      if (editingProduct) {
+        await updateProduct(editingProduct.id, payload);
+      } else {
+        await createProduct(payload);
+      }
+      setProductModalOpen(false);
+      await loadData();
+    } catch (error) {
+      setProductSaveError(error instanceof Error ? error.message : 'Product could not be saved.');
+    } finally {
+      setSavingProduct(false);
     }
-    setProductModalOpen(false);
-    loadData();
   };
 
   const handleDeleteProduct = async (id: string) => {
@@ -1193,17 +1243,119 @@ export default function AdminPage() {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  {isPt ? 'URL da Imagem' : 'Image URL'}
-                </label>
-                <input
-                  type="url"
-                  value={prodForm.imageUrl}
-                  onChange={(e) => setProdForm({ ...prodForm, imageUrl: e.target.value })}
-                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900"
-                />
-              </div>
+              <section className="space-y-3" aria-labelledby="product-image-heading">
+                <div className="flex flex-wrap items-end justify-between gap-x-3 gap-y-1">
+                  <label id="product-image-heading" className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                    {isPt ? 'Imagem do produto' : 'Product image'}
+                  </label>
+                  <span className="text-[11px] text-slate-400">JPEG, PNG, WebP, AVIF · 8 MB</span>
+                </div>
+
+                <div className="grid grid-cols-[96px_minmax(0,1fr)] gap-3 sm:grid-cols-[112px_minmax(0,1fr)]">
+                  <div className="relative aspect-square overflow-hidden rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
+                    <AnimatePresence mode="wait" initial={false}>
+                      {productImagePreview ? (
+                        <motion.div
+                          key={productImagePreview}
+                          initial={{ opacity: 0, scale: 0.96 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 1.03 }}
+                          transition={{ duration: 0.18 }}
+                          className="absolute inset-0"
+                        >
+                          <Image
+                            src={productImagePreview}
+                            alt={isPt ? 'Pré-visualização do produto' : 'Product image preview'}
+                            fill
+                            sizes="112px"
+                            unoptimized
+                            className="object-cover"
+                          />
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="empty-image-preview"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex h-full items-center justify-center text-slate-400"
+                        >
+                          <ImagePlus className="h-7 w-7" aria-hidden="true" />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  <motion.label
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.99 }}
+                    animate={{ scale: isDraggingProductImage ? 1.01 : 1 }}
+                    transition={{ duration: 0.16 }}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setIsDraggingProductImage(true);
+                    }}
+                    onDragLeave={() => setIsDraggingProductImage(false)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setIsDraggingProductImage(false);
+                      const file = e.dataTransfer.files[0];
+                      if (file) handleProductImageFile(file);
+                    }}
+                    className={`relative flex min-h-24 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed px-3 py-3 text-center transition-colors sm:min-h-28 ${isDraggingProductImage ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30' : 'border-slate-300 bg-slate-50 hover:border-emerald-400 hover:bg-emerald-50/60 dark:border-slate-700 dark:bg-slate-800/60 dark:hover:bg-emerald-950/20'}`}
+                  >
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/avif"
+                      aria-label={isPt ? 'Carregar imagem do produto' : 'Upload product image'}
+                      onChange={(e) => {
+                        const file = e.currentTarget.files?.[0];
+                        if (file) handleProductImageFile(file);
+                        e.currentTarget.value = '';
+                      }}
+                      className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
+                    />
+                    <Upload className={`h-5 w-5 transition-transform duration-200 ${isDraggingProductImage ? '-translate-y-0.5 text-emerald-600' : 'text-emerald-600'}`} aria-hidden="true" />
+                    <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
+                      {productImageFile ? (isPt ? 'Substituir imagem' : 'Replace image') : (isPt ? 'Escolher imagem' : 'Choose image')}
+                    </span>
+                    <span className="max-w-full truncate text-[11px] text-slate-500 dark:text-slate-400">
+                      {productImageFile?.name || (isPt ? 'ou arraste para aqui' : 'or drop it here')}
+                    </span>
+                  </motion.label>
+                </div>
+
+                <div className="relative">
+                  <Link2 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                  <input
+                    type="url"
+                    aria-label={isPt ? 'URL da imagem do produto' : 'Product image URL'}
+                    placeholder={isPt ? 'Ou cole um URL de imagem' : 'Or paste an image URL'}
+                    value={prodForm.imageUrl}
+                    onChange={(e) => {
+                      setProdForm({ ...prodForm, imageUrl: e.target.value });
+                      setProductImageFile(null);
+                      setProductImagePreview(e.target.value);
+                    }}
+                    className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3.5 text-xs sm:text-sm dark:border-slate-700 dark:bg-slate-900"
+                  />
+                </div>
+
+                <AnimatePresence initial={false}>
+                  {productSaveError && (
+                    <motion.p
+                      key="product-image-error"
+                      role="alert"
+                      initial={{ opacity: 0, height: 0, y: -4 }}
+                      animate={{ opacity: 1, height: 'auto', y: 0 }}
+                      exit={{ opacity: 0, height: 0, y: -4 }}
+                      transition={{ duration: 0.18 }}
+                      className="overflow-hidden text-xs font-semibold text-red-600"
+                    >
+                      {productSaveError}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </section>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -1254,9 +1406,10 @@ export default function AdminPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md"
+                  disabled={savingProduct}
+                  className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md disabled:cursor-wait disabled:opacity-60"
                 >
-                  {isPt ? 'Guardar Produto' : 'Save Product'}
+                  {savingProduct ? (isPt ? 'A guardar...' : 'Saving...') : (isPt ? 'Guardar Produto' : 'Save Product')}
                 </button>
               </div>
             </form>
